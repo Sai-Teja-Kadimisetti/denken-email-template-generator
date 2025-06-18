@@ -352,9 +352,9 @@ function updatePreview() {
                     <tr>
                         <td style="padding: 15px 5% 15px; text-align: center; color: #1f3462; border-top: 0.5px solid #BDBDBD; background-color: #F9F8FC; border-radius: 0 0 20px 20px; overflow: hidden; ">
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                ${contactInfo ? `<tr><td style="font-size: 16px; line-height: 2;">If you have any questions or need assistance, please don't hesitate to contact us at <a href="mailto:${orgEmail}" target="_blank" style="color:rgb(22, 83, 214); text-decoration: none; cursor: pointer;">${orgEmail}</a></td></tr>` : ''}
+                                ${contactInfo ? `<tr><td style="font-size: 16px; line-height: 2; text-align: center;">If you have any questions or need assistance, please don't hesitate to contact us at <a href="mailto:${orgEmail}" target="_blank" style="color:rgb(22, 83, 214); text-decoration: none; cursor: pointer;">${orgEmail}</a></td></tr>` : ''}
                                 ${(contactInfo && scheduleMeeting) ? ` <tr>
-                            <td style="font-size: 16px; line-height: 2; padding-bottom: 15px; padding-top: 15px;">
+                            <td style="font-size: 16px; line-height: 2; padding-bottom: 15px; padding-top: 15px; text-align: center;">
                                 or
                             </td>
                         </tr>` : ''}
