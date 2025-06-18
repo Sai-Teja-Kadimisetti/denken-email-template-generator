@@ -290,7 +290,7 @@ function updatePreview() {
             const buttonLink = fieldGroup.querySelector('.buttonLink').value;
             contentHTML += `
                 <tr>
-                    <td align="center" style="padding-bottom: 20px;">
+                    <td align="center" style="padding-bottom: 15px;">
                         <table border="0" cellspacing="0" cellpadding="0">
                             <tr>
                                 <td align="center" style="border-radius: 20px; background-color: #1f3462;">
