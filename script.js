@@ -284,7 +284,7 @@ function updatePreview() {
             const textColor = textColorSelect ? textColorSelect.value : 'default';
             const colorStyle = textColor === 'default' ? '' : `color: ${textColor};`;
             const textContent = text.includes('${') ? text : text.replace(/\${([^}]+)}/g, '${$1}');
-            contentHTML += `<tr><td style="font-size: 16px; line-height: normal; padding-bottom: 15px; text-align: ${alignment}; ${colorStyle}">${textContent}</td></tr>`;
+            contentHTML += `<tr><td style="font-size: 16px; line-height: 1.4; padding-bottom: 15px; text-align: ${alignment}; ${colorStyle}">${textContent}</td></tr>`;
         } else if (fieldGroup.querySelector('.buttonText')) {
             const buttonText = fieldGroup.querySelector('.buttonText').value;
             const buttonLink = fieldGroup.querySelector('.buttonLink').value;
@@ -342,7 +342,7 @@ function updatePreview() {
                             </td>
                         </tr>
                         <tr>
-                        <td style="padding: 20px 5% 20px; text-align: center; color: #1f3462; background-color: #ffffff; overflow: hidden; ">
+                        <td style="padding: 20px 5% 5px; text-align: center; color: #1f3462; background-color: #ffffff; overflow: hidden; ">
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 ${contentHTML}
                             </table>
@@ -352,9 +352,9 @@ function updatePreview() {
                     <tr>
                         <td style="padding: 15px 5% 15px; text-align: center; color: #1f3462; border-top: 0.5px solid #BDBDBD; background-color: #F9F8FC; border-radius: 0 0 20px 20px; overflow: hidden; ">
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                ${contactInfo ? `<tr><td style="font-size: 16px; line-height: normal; text-align: center;">If you have any questions or need assistance, please don't hesitate to contact us at <a href="mailto:${orgEmail}" target="_blank" style="color:rgb(22, 83, 214); text-decoration: none; cursor: pointer;">${orgEmail}</a></td></tr>` : ''}
+                                ${contactInfo ? `<tr><td style="font-size: 16px; line-height: 1.4; text-align: center;">If you have any questions or need assistance, please don't hesitate to contact us at <a href="mailto:${orgEmail}" target="_blank" style="color:rgb(22, 83, 214); text-decoration: none; cursor: pointer;">${orgEmail}</a></td></tr>` : ''}
                                 ${(contactInfo && scheduleMeeting) ? ` <tr>
-                            <td style="font-size: 16px; line-height: normal; padding-bottom: 15px; padding-top: 15px; text-align: center;">
+                            <td style="font-size: 16px; line-height: 1.4; padding-bottom: 15px; padding-top: 15px; text-align: center;">
                                 or
                             </td>
                         </tr>` : ''}
@@ -377,12 +377,12 @@ function updatePreview() {
                         <td bgcolor="#ffffff" align="center" style="padding: 20px; color: #1f3462;">
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
-                                    <td align="center" style="font-size: 14px; line-height: normal;">
+                                    <td align="center" style="font-size: 14px; line-height: 1.4;">
                                         Best Regards
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td align="center" style="font-size: 14px; line-height: normal;">
+                                    <td align="center" style="font-size: 14px; line-height: 1.4;">
                                         ${orgName} Support Team
                                     </td>
                                 </tr>
