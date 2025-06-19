@@ -202,6 +202,19 @@ function addField() {
             <div style="display: flex; justify-content: end; align-items: center; margin-top: 10px;">
                 <button type="button" class="remove-btn" onclick="removeField(this)">Remove</button>
             </div>`;
+    } else if (fieldType === 'simpleTable') {
+        fieldGroup.innerHTML = `
+            <label>Simple Table:</label>
+            <div class="table-controls" style="display: flex; gap: 10px; margin-bottom: 10px;">
+                <button type="button" class="control-button" onclick="addSimpleTableRow('${fieldId}', 'normal')" style="background-color: #1f3462; color: white; padding: 5px 10px;">Add Row</button>
+                <button type="button" class="control-button" onclick="addSimpleTableRow('${fieldId}', 'fullwidth')" style="background-color: #4CAF50; color: white; padding: 5px 10px;">Add Full Width Row</button>
+            </div>
+            <div class="simple-table-rows" style="border: 1px solid #e5e7eb; border-radius: 5px; padding: 10px; max-height: 300px; overflow-y: auto;">
+                <div class="no-rows-message" style="text-align: center; color: #666; padding: 20px;">No rows added yet. Click "Add Row" to start building your table.</div>
+            </div>
+            <div style="display: flex; justify-content: end; align-items: center; margin-top: 10px;">
+                <button type="button" class="remove-btn" onclick="removeField(this)">Remove</button>
+            </div>`;
     }
 
     contentFieldsDiv.appendChild(fieldGroup);
@@ -214,6 +227,143 @@ function removeField(button) {
     const fieldGroup = button.closest('.field-group');
     const fieldId = fieldGroup.id;
     contentFields = contentFields.filter(field => field.id !== fieldId);
+    fieldGroup.remove();
+    validateForm();
+    updatePreview();
+}
+
+function addSimpleTableRow(fieldId, rowType) {
+    const fieldGroup = document.getElementById(fieldId);
+    const simpleTableRows = fieldGroup.querySelector('.simple-table-rows');
+    const noRowsMessage = simpleTableRows.querySelector('.no-rows-message');
+
+    if (noRowsMessage) {
+        noRowsMessage.remove();
+    }
+
+    const rowId = `row-${Date.now()}`;
+    const row = document.createElement('div');
+    row.className = 'simple-table-row';
+    row.setAttribute('data-row-type', rowType);
+    row.id = rowId;
+
+    if (rowType === 'fullwidth') {
+        row.innerHTML = `
+            <div style="background-color: #ffffff; border: 1px solid #dee2e6; border-radius: 5px; padding: 10px; margin-bottom: 10px;">
+                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 10px;">
+                    <strong style="color: #1f3462;">Full Width Row</strong>
+                    <button type="button" class="remove-row-btn" onclick="removeSimpleTableRow('${rowId}')" style="background-color: #dc3545; color: white; border: none; padding: 3px 8px; border-radius: 3px; cursor: pointer;">Remove Row</button>
+                </div>
+                <div class="full-width-fields">
+                    <button type="button" onclick="addFullWidthField('${rowId}', 'text')" style="background-color: #007bff; color: white; border: none; padding: 5px 10px; margin-right: 5px; border-radius: 3px; cursor: pointer;">Add Text</button>
+                    <button type="button" onclick="addFullWidthField('${rowId}', 'button')" style="background-color: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Add Button</button>
+                </div>
+                <div class="full-width-field-groups" style="margin-top: 10px;"></div>
+            </div>`;
+    } else {
+        row.innerHTML = `
+            <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 10px; margin-bottom: 10px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <strong style="color: #1f3462;">Table Row</strong>
+                    <div>
+                        <button type="button" onclick="addTableCell('${rowId}')" style="background-color: #007bff; color: white; border: none; padding: 3px 8px; margin-right: 5px; border-radius: 3px; cursor: pointer;">Add Cell</button>
+                        <button type="button" class="remove-row-btn" onclick="removeSimpleTableRow('${rowId}')" style="background-color: #dc3545; color: white; border: none; padding: 3px 8px; border-radius: 3px; cursor: pointer;">Remove Row</button>
+                    </div>
+                </div>
+                <div class="table-cells" style="display: flex; flex-wrap: wrap; gap: 5px;"></div>
+            </div>`;
+
+        // Add first cell by default
+        setTimeout(() => addTableCell(rowId), 0);
+    }
+
+    simpleTableRows.appendChild(row);
+    validateForm();
+    updatePreview();
+}
+
+function removeSimpleTableRow(rowId) {
+    const row = document.getElementById(rowId);
+    const simpleTableRows = row.closest('.simple-table-rows');
+    row.remove();
+
+    // Show no rows message if no rows left
+    if (simpleTableRows.children.length === 0) {
+        const noRowsMessage = document.createElement('div');
+        noRowsMessage.className = 'no-rows-message';
+        noRowsMessage.style.cssText = 'text-align: center; color: #666; padding: 20px;';
+        noRowsMessage.textContent = 'No rows added yet. Click "Add Row" to start building your table.';
+        simpleTableRows.appendChild(noRowsMessage);
+    }
+
+    validateForm();
+    updatePreview();
+}
+
+function addTableCell(rowId) {
+    const row = document.getElementById(rowId);
+    const tableCells = row.querySelector('.table-cells');
+    const cellId = `cell-${Date.now()}`;
+
+    const cell = document.createElement('div');
+    cell.className = 'table-cell-container';
+    cell.style.cssText = 'flex: 1; min-width: 150px;';
+    cell.innerHTML = `
+        <input type="text" class="tableCell" oninput="validateForm(); updatePreview();" placeholder="Enter cell content" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;">
+        <button type="button" onclick="removeTableCell(this)" style="background-color: #dc3545; color: white; border: none; padding: 2px 5px; margin-top: 2px; border-radius: 3px; cursor: pointer; font-size: 10px;">Remove</button>
+    `;
+
+    tableCells.appendChild(cell);
+    validateForm();
+    updatePreview();
+}
+
+function removeTableCell(button) {
+    const cellContainer = button.closest('.table-cell-container');
+    cellContainer.remove();
+    validateForm();
+    updatePreview();
+}
+
+function addFullWidthField(rowId, fieldType) {
+    const row = document.getElementById(rowId);
+    const fullWidthFieldGroups = row.querySelector('.full-width-field-groups');
+    const fieldId = `fullwidth-${Date.now()}`;
+
+    const fieldGroup = document.createElement('div');
+    fieldGroup.className = 'full-width-field-group';
+    fieldGroup.style.cssText = 'border: 1px solid #ccc; border-radius: 3px; padding: 10px; margin-bottom: 10px; background-color: white;';
+
+    if (fieldType === 'text') {
+        fieldGroup.innerHTML = `
+            <label>Text Content:</label>
+            <textarea class="fullWidthText" oninput="validateForm(); updatePreview();" placeholder="Enter text" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px; min-height: 60px;"></textarea>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+                <select class="fullWidthAlignment" onchange="updatePreview()" style="padding: 3px;">
+                    <option value="center">Center</option>
+                    <option value="left">Left</option>
+                    <option value="right">Right</option>
+                </select>
+                <button type="button" onclick="removeFullWidthField(this)" style="background-color: #dc3545; color: white; border: none; padding: 3px 8px; border-radius: 3px; cursor: pointer;">Remove</button>
+            </div>`;
+    } else if (fieldType === 'button') {
+        fieldGroup.innerHTML = `
+            <label>Button Text:</label>
+            <input type="text" class="fullWidthButtonText" oninput="validateForm(); updatePreview();" placeholder="Enter button text" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px; margin-bottom: 5px;">
+            <label>Button Link:</label>
+            <input type="text" class="fullWidthButtonLink" oninput="validateForm(); updatePreview();" placeholder="Enter button link" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;">
+            <div style="display: flex; justify-content: end; align-items: center; margin-top: 5px;">
+                <button type="button" onclick="removeFullWidthField(this)" style="background-color: #dc3545; color: white; border: none; padding: 3px 8px; border-radius: 3px; cursor: pointer;">Remove</button>
+            </div>`;
+    }
+
+    fullWidthFieldGroups.appendChild(fieldGroup);
+    validateForm();
+    updatePreview();
+}
+
+function removeFullWidthField(button) {
+    const fieldGroup = button.closest('.full-width-field-group');
     fieldGroup.remove();
     validateForm();
     updatePreview();
@@ -300,6 +450,75 @@ function updatePreview() {
                         </table>
                     </td>
                 </tr>`;
+        } else if (fieldGroup.querySelector('.simple-table-rows')) {
+            // Handle simple table
+            const simpleTableRows = fieldGroup.querySelector('.simple-table-rows');
+            const rows = simpleTableRows.querySelectorAll('.simple-table-row');
+
+            if (rows.length > 0) {
+                contentHTML += `
+                    <tr>
+                        <td style="padding-bottom: 15px;">
+                            <table border="0" cellspacing="0" cellpadding="5" width="100%" style="border-collapse: collapse; table-layout: fixed;">`;
+
+                rows.forEach(row => {
+                    const rowType = row.getAttribute('data-row-type');
+
+                    if (rowType === 'fullwidth') {
+                        const fullWidthFields = row.querySelectorAll('.full-width-field-group');
+                        fullWidthFields.forEach(fieldGroup => {
+                            const textField = fieldGroup.querySelector('.fullWidthText');
+                            const buttonTextField = fieldGroup.querySelector('.fullWidthButtonText');
+                            const buttonLinkField = fieldGroup.querySelector('.fullWidthButtonLink');
+
+                            if (textField && textField.value.trim()) {
+                                const alignment = fieldGroup.querySelector('.fullWidthAlignment')?.value || 'center';
+                                contentHTML += `
+                                    <tr>
+                                        <td colspan="100%" style="padding: 8px; text-align: ${alignment}; border: 1px solid #dee2e6; background-color: #ffffff;">
+                                            ${textField.value}
+                                        </td>
+                                    </tr>`;
+                            }
+
+                            if (buttonTextField && buttonLinkField && buttonTextField.value.trim() && buttonLinkField.value.trim()) {
+                                contentHTML += `
+                                    <tr>
+                                        <td colspan="100%" align="center" style="padding: 8px; border: 1px solid #dee2e6; background-color: #ffffff;">
+                                            <table border="0" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                    <td align="center" style="border-radius: 20px; background-color: #1f3462;">
+                                                        <a th:href="\${${buttonLinkField.value}}" target="_blank" style="display: inline-block; background-color: #1f3462; color: #ffffff; padding: 8px 20px; text-decoration: none; border-radius: 20px; font-size: 14px;">${buttonTextField.value}</a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>`;
+                            }
+                        });
+                    } else {
+                        const cells = row.querySelectorAll('.tableCell');
+                        if (cells.length > 0) {
+                            const validCells = Array.from(cells).filter(cell => cell.value.trim());
+                            if (validCells.length > 0) {
+                                const cellWidth = Math.floor(100 / validCells.length);
+                                contentHTML += '<tr>';
+                                validCells.forEach((cell, index) => {
+                                    const isLastCell = index === validCells.length - 1;
+                                    const width = isLastCell ? 100 - (cellWidth * (validCells.length - 1)) : cellWidth;
+                                    contentHTML += `<td style="padding:12px 8px; border: 1px solid #dee2e6; text-align: left; width: ${width}%; word-wrap: break-word; line-height: 1.4;">${cell.value}</td>`;
+                                });
+                                contentHTML += '</tr>';
+                            }
+                        }
+                    }
+                });
+
+                contentHTML += `
+                            </table>
+                        </td>
+                    </tr>`;
+            }
         }
     });
 
