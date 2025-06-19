@@ -475,7 +475,7 @@ function updatePreview() {
                                 const alignment = fieldGroup.querySelector('.fullWidthAlignment')?.value || 'center';
                                 contentHTML += `
                                     <tr>
-                                        <td colspan="100%" style="padding: 8px; text-align: ${alignment}; border: 1px solid #dee2e6; background-color: #ffffff;">
+                                        <td colspan="100%" style="padding:12px 8px; text-align: ${alignment}; border: 1px solid #dee2e6; background-color: #ffffff;">
                                             ${textField.value}
                                         </td>
                                     </tr>`;
