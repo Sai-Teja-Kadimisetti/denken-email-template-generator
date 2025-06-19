@@ -484,7 +484,7 @@ function updatePreview() {
                             if (buttonTextField && buttonLinkField && buttonTextField.value.trim() && buttonLinkField.value.trim()) {
                                 contentHTML += `
                                     <tr>
-                                        <td colspan="100%" align="center" style="padding: 8px; border: 1px solid #dee2e6; background-color: #ffffff;">
+                                        <td colspan="100%" align="center" style="padding:12px 8px; border: 1px solid #dee2e6; background-color: #ffffff;">
                                             <table border="0" cellspacing="0" cellpadding="0">
                                                 <tr>
                                                     <td align="center" style="border-radius: 20px; background-color: #1f3462;">
