@@ -477,7 +477,7 @@ function updatePreview() {
                             if (textField && textField.value.trim()) {
                                 const alignment = fieldGroup.querySelector('.fullWidthAlignment')?.value || 'center';
                                 fullWidthContent += `
-                                    <div style="text-align: ${alignment}; margin-bottom: 10px;">
+                                    <div style="text-align: ${alignment};">
                                         ${textField.value}
                                     </div>`;
                                 hasContent = true;
@@ -485,7 +485,7 @@ function updatePreview() {
 
                             if (buttonTextField && buttonLinkField && buttonTextField.value.trim() && buttonLinkField.value.trim()) {
                                 fullWidthContent += `
-                                    <div style="text-align: center; margin-bottom: 10px;">
+                                    <div style="text-align: center;">
                                         <table border="0" cellspacing="0" cellpadding="0" style="margin: 0 auto;">
                                             <tr>
                                                 <td align="center" style="border-radius: 20px; background-color: #1f3462;">
@@ -502,7 +502,9 @@ function updatePreview() {
                             contentHTML += `
                                 <tr>
                                     <td colspan="100%" style="padding:12px 8px; border: 1px solid #dee2e6; background-color: #ffffff;">
-                                        ${fullWidthContent}
+                                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                                            ${fullWidthContent}
+                                        </div>
                                     </td>
                                 </tr>`;
                         }
