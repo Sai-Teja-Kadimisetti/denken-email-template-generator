@@ -466,6 +466,9 @@ function updatePreview() {
 
                     if (rowType === 'fullwidth') {
                         const fullWidthFields = row.querySelectorAll('.full-width-field-group');
+                        let fullWidthContent = '';
+                        let hasContent = false;
+
                         fullWidthFields.forEach(fieldGroup => {
                             const textField = fieldGroup.querySelector('.fullWidthText');
                             const buttonTextField = fieldGroup.querySelector('.fullWidthButtonText');
@@ -473,29 +476,36 @@ function updatePreview() {
 
                             if (textField && textField.value.trim()) {
                                 const alignment = fieldGroup.querySelector('.fullWidthAlignment')?.value || 'center';
-                                contentHTML += `
-                                    <tr>
-                                        <td colspan="100%" style="padding:12px 8px; text-align: ${alignment}; border: 1px solid #dee2e6; background-color: #ffffff;">
-                                            ${textField.value}
-                                        </td>
-                                    </tr>`;
+                                fullWidthContent += `
+                                    <div style="text-align: ${alignment}; margin-bottom: 10px;">
+                                        ${textField.value}
+                                    </div>`;
+                                hasContent = true;
                             }
 
                             if (buttonTextField && buttonLinkField && buttonTextField.value.trim() && buttonLinkField.value.trim()) {
-                                contentHTML += `
-                                    <tr>
-                                        <td colspan="100%" align="center" style="padding:12px 8px; border: 1px solid #dee2e6; background-color: #ffffff;">
-                                            <table border="0" cellspacing="0" cellpadding="0">
-                                                <tr>
-                                                    <td align="center" style="border-radius: 20px; background-color: #1f3462;">
-                                                        <a th:href="\${${buttonLinkField.value}}" target="_blank" style="display: inline-block; background-color: #1f3462; color: #ffffff; padding: 8px 20px; text-decoration: none; border-radius: 20px; font-size: 14px;">${buttonTextField.value}</a>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>`;
+                                fullWidthContent += `
+                                    <div style="text-align: center; margin-bottom: 10px;">
+                                        <table border="0" cellspacing="0" cellpadding="0" style="margin: 0 auto;">
+                                            <tr>
+                                                <td align="center" style="border-radius: 20px; background-color: #1f3462;">
+                                                    <a th:href="\${${buttonLinkField.value}}" target="_blank" style="display: inline-block; background-color: #1f3462; color: #ffffff; padding: 8px 20px; text-decoration: none; border-radius: 20px; font-size: 14px;">${buttonTextField.value}</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>`;
+                                hasContent = true;
                             }
                         });
+
+                        if (hasContent) {
+                            contentHTML += `
+                                <tr>
+                                    <td colspan="100%" style="padding:12px 8px; border: 1px solid #dee2e6; background-color: #ffffff;">
+                                        ${fullWidthContent}
+                                    </td>
+                                </tr>`;
+                        }
                     } else {
                         const cells = row.querySelectorAll('.tableCell');
                         if (cells.length > 0) {
