@@ -393,14 +393,14 @@ function updatePreview() {
             supportEmail: 'support@medsquirrels.com',
             hiringEmail: 'hiring@medsquirrels.com',
             website: 'https://medsquirrels.com',
-            footerLogo: 'https://globalmedsquirrels.s3.ap-south-1.amazonaws.com/notification-config/images/medsquirrels/ms_image_0048.png'
+            footerLogo: 'https://denken-images.s3.dualstack.us-east-1.amazonaws.com/medsquirrels/logo.png'
         },
         global: {
             name: 'Global Squirrels',
             supportEmail: 'support@globalsquirrels.com',
             hiringEmail: 'hiring@globalsquirrels.com',
             website: 'https://globalsquirrels.com',
-            footerLogo: 'https://globalmedsquirrels.s3.ap-south-1.amazonaws.com/notification-config/images/globalsquirrels/gs_image_0044.png'
+            footerLogo: 'https://denken-images.s3.dualstack.us-east-1.amazonaws.com/globalsquirrels/logo.png'
         }
     };
 
